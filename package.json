@@ -6,6 +6,7 @@
 	"license": "MIT",
 	"main": "index.js",
 	"types": "index.d.ts",
+	"repository": "https://github.com/maxwrlr/puppeteer-extension",
 	"scripts": {
 		"build": "tsc --declaration && cp package.json dist/nodejs/ && cp README.md dist/nodejs/"
 	},
