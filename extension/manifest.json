@@ -1,0 +1,30 @@
+{
+	"name": "Puppeteer Extension",
+	"description": "Automate your browser without allowing websites to detect automated control.",
+	"version": "0.1.0",
+	"manifest_version": 2,
+	"browser_action": {
+		"default_popup": "popup.html"
+	},
+	"background": {
+		"scripts": [
+			"background.js"
+		]
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"*://*/*"
+			],
+			"js": [
+				"content.js"
+			]
+		}
+	],
+	"web_accessible_resources": [
+		"eval.js"
+	],
+	"permissions": [
+		"storage"
+	]
+}

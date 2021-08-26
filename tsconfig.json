@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+		"module": "CommonJS",
+		"moduleResolution": "Node",
+		"target": "ES6",
+		"rootDir": "nodejs",
+		"outDir": "dist/nodejs",
+		"strict": true
+	},
+	"include": [
+		"nodejs/**/*"
+	]
+}
