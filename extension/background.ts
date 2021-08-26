@@ -69,12 +69,18 @@ async function pollTask(data: any) {
 			let i = 0, response;
 			await new Promise(r => setTimeout(r, 2500));
 			while(response === undefined) {
-				response = await new Promise(res => {
+				const tab = await new Promise<chrome.tabs.Tab>(r => chrome.tabs.get(task.ref, r));
+				response  = tab.status === 'complete' ? await new Promise(res => {
 					chrome.tabs.sendMessage(task.ref, {
 						topic:   'execute',
 						payload: task
 					}, res);
-				});
+				}) : undefined;
+
+				if(chrome.runtime.lastError) {
+					return {};
+				}
+
 				if(response === undefined) {
 					if(++i === 10) {
 						break;

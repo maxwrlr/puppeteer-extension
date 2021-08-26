@@ -11,7 +11,8 @@
 		"build": "npm run build:extension && npm run build:node",
 		"build:extension": "tsc --project tsconfig.ext.json && cp extension/manifest.json dist/extension/ && cp extension/popup.html dist/extension/",
 		"build:node": "tsc --project tsconfig.node.json && cp package.json dist/nodejs/ && cp README.md dist/nodejs/",
-		"watch:extension": "tsc --project tsconfig.ext.json --watch"
+		"watch:extension": "tsc --project tsconfig.ext.json --watch",
+		"test": "ts-node test/test.ts"
 	},
 	"keywords": [
 		"automation",

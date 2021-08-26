@@ -5,10 +5,19 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
 	const task = msg.payload;
 	switch(task.name) {
-		case 'Page.waitForNavigation': {
-			setTimeout(sendResponse, task.args[0].timeout);
-			break;
+		case 'Page.click': {
+			const element = document.querySelector(task.args[0]);
+			if(element) {
+				element.click();
+				sendResponse();
+			} else {
+				sendResponse({
+					error: 'Failed to execute Page.click: No element found for "' + task.args[0] + '"'
+				});
+			}
+			return;
 		}
+
 		case 'Page.evaluate': {
 			const div     = document.createElement('div');
 			div.innerText = task.args[0];
@@ -26,15 +35,19 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 			});
 
 			document.head.appendChild(script);
-			break;
+			return true;
 		}
+
+		case 'Page.waitForNavigation': {
+			sendResponse();
+			return;
+		}
+
 		default: {
 			sendResponse({
 				error: `${task.name} is not Implemented!`
 			});
-			break;
+			return;
 		}
 	}
-
-	return true;
 });
