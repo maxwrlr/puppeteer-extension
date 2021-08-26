@@ -22,6 +22,7 @@ interface ITask {
 
 export class Browser {
 	private readonly _process?: ChildProcess;
+	private readonly _pageProxy: ProxyHandler<{ id: number }>;
 
 	// required for communication
 	private _scheduledTasks: ITask[]  = [];
@@ -29,7 +30,16 @@ export class Browser {
 	private _activePoll: IPoll | null = null;
 
 	constructor(process?: ChildProcess) {
-		this._process = process;
+		this._process   = process;
+		this._pageProxy = {
+			get: (target, prop: string) => {
+				if(prop === 'then') {
+					return undefined;
+				} else {
+					return (...args: any) => this._execute(target.id, `Page.${prop}`, args);
+				}
+			}
+		};
 	}
 
 	middleware(): express.Handler {
@@ -75,7 +85,7 @@ export class Browser {
 		};
 	}
 
-	private execute(ref: any, name: string, args: any[] = []): Promise<any> {
+	private _execute<T = unknown>(ref: any, name: string, args: any[] = []): Promise<T> {
 		return new Promise((resolve, reject) => {
 			const task = {
 				ref,
@@ -97,17 +107,18 @@ export class Browser {
 		});
 	}
 
+	private _createPageProxy(id: number): Page {
+		return new Proxy({ id }, this._pageProxy) as any;
+	}
+
 	async newPage(): Promise<Page> {
-		const page = await this.execute(null, 'Browser.newPage');
-		return new Proxy(page, {
-			get: (target, prop: string) => {
-				if(prop === 'then') {
-					return undefined;
-				} else {
-					return (...args: any) => this.execute(page.id, `Page.${prop}`, args);
-				}
-			}
-		});
+		const pageId = await this._execute<number>(null, 'Browser.newPage');
+		return this._createPageProxy(pageId);
+	}
+
+	async pages(): Promise<Page[]> {
+		const pages = await this._execute<number[]>(null, 'Browser.pages');
+		return pages.map(id => this._createPageProxy(id));
 	}
 
 	close() {

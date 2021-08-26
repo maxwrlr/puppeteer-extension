@@ -43,11 +43,17 @@ async function pollTask(data) {
 		case 'Browser.newPage': {
 			const tab = await new Promise(r => chrome.tabs.create({}, r));
 			return {
-				payload: {
-					id: tab.id
-				}
+				payload: tab.id
 			};
 		}
+		case 'Browser.pages': {
+			const window = await new Promise(r => chrome.windows.getLastFocused(r));
+			const tabs   = await new Promise(r => chrome.tabs.getAllInWindow(window.id, r));
+			return {
+				payload: tabs.filter(t => typeof t.id === 'number').map(t => t.id)
+			};
+		}
+
 		case 'Page.goto': {
 			await chrome.tabs.update(task.ref, {
 				url: task.args[0]
