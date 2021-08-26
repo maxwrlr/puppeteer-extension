@@ -16,12 +16,14 @@ I personally use it with Xvfb and Chromium on a RaspberryPI.
 ### Browser Extension
 
 Since there is no UI yet, you might want to configure the URL of the middleware
-in [extension/background.js](extension/background.js) to connect to the NodeJS app. 
+in [extension/background.ts](extension/background.ts) to connect to the NodeJS app. 
 
-1. Open [chrome://extensions/](chrome://extensions/).
-2. Enable developer mode.
-3. Pack Extension (Choose the extension directory of this repository as extension root).
-4. Drag and Drop the created `.crx` file into Chrome.
+1. Compile the extension: `npm run build:extension`
+2. Open [chrome://extensions/](chrome://extensions/).
+3. Enable developer mode.
+4. Click "Load unpacked" (recommended for Chrome) or "Pack extension" (recommended for Chromium).
+5. Choose the `dist/extension` directory that was created in step 1 as extension root.
+6. *If extension was packed in step 4:* Drag and Drop the created `.crx` file into Chromium.
 
 ### NodeJS
 

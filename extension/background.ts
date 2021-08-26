@@ -26,7 +26,7 @@ async function main() {
 	}
 }
 
-async function pollTask(data) {
+async function pollTask(data: any) {
 	const task = await fetch(url, {
 		method:  'POST',
 		headers: {
@@ -41,14 +41,14 @@ async function pollTask(data) {
 
 	switch(task.name) {
 		case 'Browser.newPage': {
-			const tab = await new Promise(r => chrome.tabs.create({}, r));
+			const tab = await new Promise<chrome.tabs.Tab>(r => chrome.tabs.create({}, r));
 			return {
 				payload: tab.id
 			};
 		}
 		case 'Browser.pages': {
-			const window = await new Promise(r => chrome.windows.getLastFocused(r));
-			const tabs   = await new Promise(r => chrome.tabs.getAllInWindow(window.id, r));
+			const window = await new Promise<chrome.windows.Window>(r => chrome.windows.getLastFocused(r));
+			const tabs   = await new Promise<chrome.tabs.Tab[]>(r => chrome.tabs.getAllInWindow(window.id, r as any));
 			return {
 				payload: tabs.filter(t => typeof t.id === 'number').map(t => t.id)
 			};

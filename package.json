@@ -8,7 +8,10 @@
 	"types": "index.d.ts",
 	"repository": "https://github.com/maxwrlr/puppeteer-extension",
 	"scripts": {
-		"build": "tsc --declaration && cp package.json dist/nodejs/ && cp README.md dist/nodejs/"
+		"build": "npm run build:extension && npm run build:node",
+		"build:extension": "tsc --project tsconfig.ext.json && cp extension/manifest.json dist/extension/ && cp extension/popup.html dist/extension/",
+		"build:node": "tsc --project tsconfig.node.json && cp package.json dist/nodejs/ && cp README.md dist/nodejs/",
+		"watch:extension": "tsc --project tsconfig.ext.json --watch"
 	},
 	"keywords": [
 		"automation",
@@ -18,7 +21,7 @@
 		"scraper"
 	],
 	"devDependencies": {
-		"@types/chrome": "^0.0.148",
+		"@types/chrome": "0.0.136",
 		"@types/express": "^4.17.13",
 		"express": "^4.17.1",
 		"puppeteer": "^10.1.0",

@@ -3,11 +3,20 @@
 		"module": "CommonJS",
 		"moduleResolution": "Node",
 		"target": "ES6",
-		"rootDir": "nodejs",
-		"outDir": "dist/nodejs",
-		"strict": true
+		"rootDir": ".",
+		"outDir": "dist",
+		"strict": true,
+		"skipLibCheck": true,
+		"lib": [
+			"ESNext"
+		]
 	},
-	"include": [
-		"nodejs/**/*"
+	"references": [
+		{
+			"path": "./tsconfig.ext.json"
+		},
+		{
+			"path": "./tsconfig.node.json"
+		}
 	]
 }
