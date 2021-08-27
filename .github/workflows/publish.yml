@@ -1,0 +1,31 @@
+name: publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '15.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: npm install
+      - run: npm run build
+
+      - name: Bump package.json
+        run: |
+          sudo apt-get install jq
+          jq ". + {version: \"${GITHUB_REF##*/v}\"}" package.json > dist/nodejs/package.json
+
+      - name: Publish on NPM
+        run: |
+          cd dist/nodejs
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,7 +1,7 @@
 {
 	"name": "puppeteer-extension",
 	"description": "Automate your browser without allowing websites to detect automated control.",
-	"version": "0.1.0",
+	"version": "",
 	"author": "maxwrlr",
 	"license": "MIT",
 	"main": "index.js",
@@ -10,7 +10,7 @@
 	"scripts": {
 		"build": "npm run build:extension && npm run build:node",
 		"build:extension": "tsc --project tsconfig.ext.json && cp extension/manifest.json dist/extension/ && cp extension/popup.html dist/extension/",
-		"build:node": "tsc --project tsconfig.node.json && cp package.json dist/nodejs/ && cp README.md dist/nodejs/",
+		"build:node": "tsc --project tsconfig.node.json && cp package.json dist/nodejs/ && cp README.md dist/nodejs/ && cp LICENSE dist/nodejs/",
 		"watch:extension": "tsc --project tsconfig.ext.json --watch",
 		"test": "ts-node test/test.ts"
 	},
