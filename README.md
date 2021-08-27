@@ -1,6 +1,6 @@
 # Puppeteer Extension
 
-[![npm puppeteer-extension package](https://img.shields.io/npm/v/puppeteer-extension.svg)](https://npmjs.org/maxwrlr/puppeteer-extension)
+[![npm puppeteer-extension package](https://img.shields.io/npm/v/puppeteer-extension.svg)](https://npmjs.org/package/puppeteer-extension)
 
 Puppeteer Extension is software used for browser automation. Its main goal is to support the API
 of [puppeteer](https://github.com/puppeteer/puppeteer), while 3rd party websites cannot detect browser automation (
