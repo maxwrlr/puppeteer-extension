@@ -14,7 +14,7 @@ personally use it with Xvfb and Chromium on a RaspberryPI.
 
 ### Browser Extension
 
-Since there is no UI yet, you might want to configure the URL of the middleware
+> **Note:** Since there is no UI yet, you first might want to configure the URL of the middleware
 in [extension/background.ts](extension/background.ts) to connect to the NodeJS app.
 
 1. Compile the extension: `npm run build:extension`
@@ -51,8 +51,8 @@ puppeteer.launch({
   const page = await browser.newPage();
   await page.goto('https://example.com');
 
-  const content = page.evaluate('document.documentElement.innerHTML');
-  if(content.includes('a')) {
+  const content = await page.evaluate('document.documentElement.innerHTML');
+  if(content.includes('<a')) {
     await page.click('a');
   }
 
