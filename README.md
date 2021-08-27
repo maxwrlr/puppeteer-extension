@@ -33,7 +33,7 @@ in [extension/background.ts](extension/background.ts) to connect to the NodeJS a
 Create the browser connector and add the middleware to an express server. Not perfect at all, but a quick solution.
 
 ```typescript
-import puppeteer from '../nodejs/index';
+import puppeteer from 'puppeteer-extension';
 import * as express from 'express';
 
 // server for communication between browser extension and NodeJS
