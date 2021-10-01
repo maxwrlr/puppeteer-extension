@@ -20,7 +20,8 @@ async function main() {
 				break;
 			}
 		} catch(err) {
-			console.log('10s');
+			data = { error: err };
+			console.debug(err)
 			await new Promise(r => setTimeout(r, 10_000));
 		}
 	}
@@ -59,6 +60,26 @@ async function pollTask(data: any) {
 				url: task.args[0]
 			});
 			return {};
+		}
+		case 'Page.screenshot': {
+			const tab = await new Promise<chrome.tabs.Tab | undefined>(r =>
+				chrome.tabs.update(task.ref, { active: true }, r)
+			);
+			if(!tab) {
+				return {
+					error: `Failed to execute ${task.name}: Tab was not found.`
+				};
+			}
+
+			const dataURL = await new Promise<string>(r =>
+				chrome.tabs.captureVisibleTab(tab.windowId, {
+					format:  task.args[0]?.type,
+					quality: task.args[0]?.quality
+				}, r)
+			);
+			return {
+				payload: dataURL.replace(/^.*?,/, '')
+			};
 		}
 		case 'Page.close': {
 			await new Promise(r => setTimeout(r, 1000));
